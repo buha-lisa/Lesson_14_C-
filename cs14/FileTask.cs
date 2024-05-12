@@ -7,7 +7,8 @@ namespace cs14
         {
             if (File.Exists(path))
             {
-                File.Copy(path, copyPath, true);
+                string copyFilePath = copyPath + @"\" + path;
+                File.Copy(path, copyFilePath, true);
                 Console.WriteLine("File copied successfully.");
             }
             else
@@ -19,7 +20,8 @@ namespace cs14
         {
             if (File.Exists(path))
             {
-                File.Move(path, copyPath, true);
+                string copyFilePath = copyPath + @"\" + path;
+                File.Move(path, copyFilePath, true);
                 Console.WriteLine("File copied successfully.");
             }
             else
