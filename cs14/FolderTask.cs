@@ -1,5 +1,4 @@
 ﻿
-
 namespace cs14
 {
     class FolderTask
@@ -10,15 +9,15 @@ namespace cs14
             {
                 Directory.CreateDirectory(copyPath);
             }
-
             if (Directory.Exists(path))
             {
-                string[] files = Directory.GetFiles(path);
-                foreach (string file in files)
+                var dir = new DirectoryInfo(path);
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                Directory.CreateDirectory(copyPath);
+                foreach (var file in dir.GetFiles())
                 {
-                    string fileName = Path.GetFileName(file);
-                    string copyFilePath = copyPath + "\\" + fileName;
-                    File.Copy(file, copyFilePath, true);
+                    var temp = copyPath + @"\" + file.Name;
+                    file.CopyTo(temp);
                 }
                 Console.WriteLine("Folder copied successfully.");
             }
@@ -30,15 +29,18 @@ namespace cs14
 
         public void MoveFolder(string path, string copyPath)
         {
-            if (!Directory.Exists(copyPath))
-            {
-                Directory.CreateDirectory(copyPath);
-            }
-
             if (Directory.Exists(path))
             {
-                Directory.Move(path, copyPath);
-                Console.WriteLine("Folder copied successfully.");
+                var dir = new DirectoryInfo(path);
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                Directory.CreateDirectory(copyPath);
+                foreach (var file in dir.GetFiles())
+                {
+                    var temp = copyPath + @"\" + file.Name;
+                    file.CopyTo(temp);
+                }
+                Directory.Delete(path, true);
+                Console.WriteLine("Folder moved successfully.");
             }
             else
             {

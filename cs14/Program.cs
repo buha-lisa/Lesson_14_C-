@@ -10,6 +10,8 @@ namespace cs14
                 Console.Write("Choose number of task(1-6): ");
                 int.TryParse(Console.ReadLine(), out int task);
 
+                if (task == 0) break;
+
                 Console.WriteLine("Enter the origin path:");
                 var path = Console.ReadLine();
                 Console.WriteLine("Enter the path to copy to:");
@@ -37,7 +39,6 @@ namespace cs14
                         break;
                 }
 
-                if (task == 0) break;
             }
 
 

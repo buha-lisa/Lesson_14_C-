@@ -1,5 +1,4 @@
 ﻿
-
 namespace cs14
 {
     class SubfolderTask
@@ -13,20 +12,21 @@ namespace cs14
 
             if (Directory.Exists(path))
             {
-                string[] files = Directory.GetFiles(path);
-                foreach (string file in files)
+                var dir = new DirectoryInfo(path);
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                Directory.CreateDirectory(copyPath);
+                foreach (var file in dir.GetFiles())
                 {
-                    string fileName = Path.GetFileName(file);
-                    string copyFilePath = copyPath + "\\" + fileName;
-                    File.Copy(file, copyFilePath, true);
+                    var temp = copyPath + @"\" + file.Name;
+                    file.CopyTo(temp);
                 }
-
-                string[] subDirectories = Directory.GetDirectories(path);
-                foreach (string subDirectory in subDirectories)
+                if (true)
                 {
-                    string directoryName = new DirectoryInfo(subDirectory).Name;
-                    string copyDirectoryPath = copyPath + "\\" + directoryName;
-                    CopySubfolder(subDirectory, copyDirectoryPath);
+                    foreach (var subDir in dirs)
+                    {
+                        string newDestinationDir = copyPath + @"\" + subDir.Name;
+                        CopySubfolder(subDir.FullName, newDestinationDir);
+                    }
                 }
                 Console.WriteLine("Folder copied successfully.");
             }
@@ -45,8 +45,24 @@ namespace cs14
 
             if (Directory.Exists(path))
             {
-                Directory.Move(path, copyPath);
-                Console.WriteLine("Folder copied successfully.");
+                var dir = new DirectoryInfo(path);
+                DirectoryInfo[] dirs = dir.GetDirectories();
+                Directory.CreateDirectory(copyPath);
+                foreach (var file in dir.GetFiles())
+                {
+                    var temp = copyPath + @"\" + file.Name;
+                    file.CopyTo(temp);
+                }
+                if (true)
+                {
+                    foreach (var subDir in dirs)
+                    {
+                        string newDestinationDir = copyPath + @"\" + subDir.Name;
+                        CopySubfolder(subDir.FullName, newDestinationDir);
+                    }
+                }
+                Directory.Delete(path, true);
+                Console.WriteLine("Folder moved successfully.");
             }
             else
             {
